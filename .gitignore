@@ -129,10 +129,10 @@ __tests__/coverage/
 
 # Documentation and Project Files
 *.md
+!README.md
 About the PROJ
 specs/
 docs/
-README.md
 SETUP.md
 DEPLOYMENT_GUIDE.md
 PLATFORM_STATUS.md
