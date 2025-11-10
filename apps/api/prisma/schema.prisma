@@ -1,0 +1,73 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Partner {
+  id              String      @id @default(cuid())
+  name            String
+  email           String      @unique
+  password        String
+  tier            PartnerTier @default(AFFILIATE)
+  commissionRate  Float
+  apiKey          String?     @unique
+  isActive        Boolean     @default(true)
+  monthlyVolume   Float       @default(0)
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  
+  referrals       Referral[]
+  commissions     Commission[]
+  whiteLabelConfig WhiteLabelConfig?
+}
+
+model Referral {
+  id            String   @id @default(cuid())
+  partnerId     String
+  userEmail     String
+  referralCode  String   @unique
+  status        String   @default("pending")
+  converted     Boolean  @default(false)
+  totalBookings Int      @default(0)
+  createdAt     DateTime @default(now())
+  
+  partner       Partner  @relation(fields: [partnerId], references: [id])
+}
+
+model Commission {
+  id              String   @id @default(cuid())
+  bookingId       String
+  partnerId       String
+  bookingAmount   Float
+  commissionRate  Float
+  commissionAmount Float
+  status          String   @default("pending")
+  createdAt       DateTime @default(now())
+  paidAt          DateTime?
+  
+  partner         Partner  @relation(fields: [partnerId], references: [id])
+}
+
+model WhiteLabelConfig {
+  id            String   @id @default(cuid())
+  partnerId     String   @unique
+  brandName     String
+  domain        String?
+  logoUrl       String?
+  primaryColor  String   @default("#0066cc")
+  secondaryColor String  @default("#ffffff")
+  createdAt     DateTime @default(now())
+  
+  partner       Partner  @relation(fields: [partnerId], references: [id])
+}
+
+enum PartnerTier {
+  AFFILIATE
+  RESELLER
+  WHITE_LABEL
+  ENTERPRISE
+}
