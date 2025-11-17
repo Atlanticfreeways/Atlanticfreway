@@ -133,6 +133,7 @@ __tests__/coverage/
 About the PROJ
 specs/
 docs/
+scripts/
 SETUP.md
 DEPLOYMENT_GUIDE.md
 PLATFORM_STATUS.md
@@ -145,3 +146,6 @@ FINAL_SUMMARY.md
 IMPLEMENTATION_SPEC.md
 PROJECT_ASSESSMENT.md
 TEST_RESULTS.md
+CONTRIBUTING.md
+deploy.md
+VERCEL_SETUP.md
