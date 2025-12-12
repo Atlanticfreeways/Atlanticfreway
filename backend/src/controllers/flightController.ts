@@ -100,7 +100,7 @@ export class FlightController {
   /**
    * Get trending routes
    */
-  static async getTrendingRoutes(req: Request, res: Response): Promise<void> {
+  static async getTrendingRoutes(_req: Request, res: Response): Promise<void> {
     try {
       logger.info('Getting trending routes');
 

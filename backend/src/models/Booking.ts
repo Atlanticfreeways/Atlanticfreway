@@ -1,91 +1,52 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
 export interface IBooking extends Document {
-  userId: mongoose.Types.ObjectId;
+  user?: mongoose.Types.ObjectId; // Optional for guest/unregistered, but mandatory for dashboard visibility
+  flightId: string;
   bookingReference: string;
-  flights: Array<{
-    flightId: mongoose.Types.ObjectId;
-    skyscannerQuoteId: string;
-    price: number;
-  }>;
-  hotel?: {
-    hotelId: mongoose.Types.ObjectId;
-    skyscannerHotelId: string;
-    nights: number;
-    pricePerNight: number;
-    totalPrice: number;
-  };
-  passengers: Array<{
+  passengerDetails: {
     firstName: string;
     lastName: string;
     email: string;
-    dateOfBirth: Date;
-    passport: string;
-  }>;
-  totalPrice: number;
-  currency: string;
-  status: 'pending' | 'confirmed' | 'cancelled';
-  paymentId: string;
-  paymentStatus: 'pending' | 'succeeded' | 'failed';
+    passport?: string;
+  };
+  flightDetails: {
+    airline: string;
+    flightNumber: string;
+    from: string;
+    to: string;
+    departDate: Date;
+    arriveDate: Date;
+    price: number;
+  };
+  status: 'confirmed' | 'cancelled' | 'completed';
+  safetyScoreSnapshot: number;
   createdAt: Date;
-  confirmedAt?: Date;
-  cancelledAt?: Date;
 }
 
-const bookingSchema = new Schema<IBooking>(
-  {
-    userId: {
-      type: Schema.Types.ObjectId,
-      ref: 'User',
-      required: true,
-      index: true,
-    },
-    bookingReference: {
-      type: String,
-      required: true,
-      unique: true,
-      index: true,
-    },
-    flights: [
-      {
-        flightId: Schema.Types.ObjectId,
-        skyscannerQuoteId: String,
-        price: Number,
-      },
-    ],
-    hotel: {
-      hotelId: Schema.Types.ObjectId,
-      skyscannerHotelId: String,
-      nights: Number,
-      pricePerNight: Number,
-      totalPrice: Number,
-    },
-    passengers: [
-      {
-        firstName: String,
-        lastName: String,
-        email: String,
-        dateOfBirth: Date,
-        passport: String,
-      },
-    ],
-    totalPrice: Number,
-    currency: String,
-    status: {
-      type: String,
-      enum: ['pending', 'confirmed', 'cancelled'],
-      default: 'pending',
-    },
-    paymentId: String,
-    paymentStatus: {
-      type: String,
-      enum: ['pending', 'succeeded', 'failed'],
-      default: 'pending',
-    },
-    confirmedAt: Date,
-    cancelledAt: Date,
+const BookingSchema: Schema = new Schema({
+  user: { type: Schema.Types.ObjectId, ref: 'User' },
+  flightId: { type: String, required: true },
+  bookingReference: { type: String, required: true, unique: true },
+  passengerDetails: {
+    firstName: { type: String, required: true },
+    lastName: { type: String, required: true },
+    email: { type: String, required: true },
+    passport: String
   },
-  { timestamps: true }
-);
+  flightDetails: {
+    airline: { type: String, required: true },
+    flightNumber: { type: String, required: true },
+    from: { type: String, required: true },
+    to: { type: String, required: true },
+    departDate: { type: Date, required: true },
+    arriveDate: { type: Date, required: true },
+    price: { type: Number, required: true }
+  },
+  status: { type: String, enum: ['confirmed', 'cancelled', 'completed'], default: 'confirmed' },
+  safetyScoreSnapshot: { type: Number, default: 0 }
+}, {
+  timestamps: true
+});
 
-export default mongoose.model<IBooking>('Booking', bookingSchema);
+export default mongoose.model<IBooking>('Booking', BookingSchema);

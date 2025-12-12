@@ -114,7 +114,7 @@ export class AuthController {
   /**
    * Logout user
    */
-  static async logout(req: Request, res: Response): Promise<void> {
+  static async logout(_req: Request, res: Response): Promise<void> {
     try {
       // In a real app, you might invalidate the token in a blacklist
       res.json({

@@ -2,40 +2,34 @@ import { createClient, RedisClientType } from 'redis';
 
 let redisClient: RedisClientType;
 
-export const initializeRedis = async (): Promise<RedisClientType> => {
+export const initializeRedis = async (): Promise<RedisClientType | null> => {
   try {
     const redisUrl = process.env.REDIS_URL || 'redis://localhost:6379';
-    
+
     redisClient = createClient({
       url: redisUrl,
       socket: {
-        reconnectStrategy: (retries) => {
-          if (retries > 10) {
-            console.error('✗ Redis reconnection failed after 10 attempts');
-            return new Error('Redis max retries exceeded');
-          }
-          return retries * 50;
-        },
-      },
+        connectTimeout: 2000,
+        reconnectStrategy: false
+      }
     });
 
-    redisClient.on('error', (err) => console.error('✗ Redis error:', err));
-    redisClient.on('connect', () => console.log('✓ Redis connected'));
-    redisClient.on('ready', () => console.log('✓ Redis ready'));
+    redisClient.on('error', (_err) => {
+      // Suppress errors if we know we are failing
+    });
 
     await redisClient.connect();
+    console.log('✓ Redis connected');
     return redisClient;
   } catch (error) {
-    console.error('✗ Redis initialization failed:', error);
-    throw error;
+    console.warn('⚠ Redis initialization failed. Caching will be disabled.');
+    // Do NOT throw.
+    return null;
   }
 };
 
-export const getRedisClient = (): RedisClientType => {
-  if (!redisClient) {
-    throw new Error('Redis client not initialized');
-  }
-  return redisClient;
+export const getRedisClient = (): RedisClientType | null => {
+  return redisClient || null;
 };
 
 export const closeRedis = async (): Promise<void> => {
@@ -47,13 +41,14 @@ export const closeRedis = async (): Promise<void> => {
 
 // Cache service
 export class CacheService {
-  private client: RedisClientType;
+  private client: RedisClientType | null;
 
   constructor() {
     this.client = getRedisClient();
   }
 
   async get<T>(key: string): Promise<T | null> {
+    if (!this.client) return null;
     try {
       const data = await this.client.get(key);
       return data ? JSON.parse(data) : null;
@@ -64,6 +59,7 @@ export class CacheService {
   }
 
   async set<T>(key: string, value: T, ttl: number = 3600): Promise<void> {
+    if (!this.client) return;
     try {
       await this.client.setEx(key, ttl, JSON.stringify(value));
     } catch (error) {
@@ -72,6 +68,7 @@ export class CacheService {
   }
 
   async delete(key: string): Promise<void> {
+    if (!this.client) return;
     try {
       await this.client.del(key);
     } catch (error) {
@@ -80,6 +77,7 @@ export class CacheService {
   }
 
   async invalidatePattern(pattern: string): Promise<void> {
+    if (!this.client) return;
     try {
       const keys = await this.client.keys(pattern);
       if (keys.length > 0) {
@@ -91,6 +89,7 @@ export class CacheService {
   }
 
   async clear(): Promise<void> {
+    if (!this.client) return;
     try {
       await this.client.flushDb();
     } catch (error) {
@@ -99,6 +98,7 @@ export class CacheService {
   }
 
   async exists(key: string): Promise<boolean> {
+    if (!this.client) return false;
     try {
       const result = await this.client.exists(key);
       return result === 1;
@@ -109,11 +109,12 @@ export class CacheService {
   }
 
   async getStats(): Promise<{ hitRate: number; memoryUsage: string }> {
+    if (!this.client) return { hitRate: 0, memoryUsage: '0B' };
     try {
       const info = await this.client.info('stats');
       const lines = info.split('\r\n');
       const stats: Record<string, string> = {};
-      
+
       lines.forEach((line) => {
         const [key, value] = line.split(':');
         if (key && value) stats[key] = value;
@@ -127,7 +128,7 @@ export class CacheService {
       const memInfo = await this.client.info('memory');
       const memLines = memInfo.split('\r\n');
       let memoryUsage = '0B';
-      
+
       memLines.forEach((line) => {
         if (line.startsWith('used_memory_human:')) {
           memoryUsage = line.split(':')[1];

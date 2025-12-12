@@ -1,16 +1,12 @@
 {
-  "name": "atlanticfreway",
+  "name": "flight-scanner",
   "version": "1.0.0",
   "private": true,
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
   "scripts": {
-    "dev": "concurrently \"npm run dev:api\" \"npm run dev:web\" \"npm run dev:portal\"",
-    "dev:api": "npm run dev -w apps/api",
-    "dev:web": "npm run dev -w apps/web",
-    "dev:portal": "npm run dev -w apps/partner-portal",
+    "dev": "concurrently \"npm run dev:api\" \"npm run dev:web\"",
+    "dev:api": "cd backend && npm run dev",
+    "dev:web": "cd frontend && npm run dev",
+    "dev:portal": "cd apps/partner-portal && npm run dev",
     "build": "npm run build --workspaces",
     "test": "npm run test --workspaces",
     "setup": "chmod +x scripts/setup.sh && ./scripts/setup.sh",

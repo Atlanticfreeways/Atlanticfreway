@@ -2,16 +2,21 @@
 node_modules/
 package-lock.json
 yarn.lock
+pnpm-lock.yaml
 
 # Environment variables
 .env
 .env.local
 .env.*.local
+.env.development
+.env.production
 
 # Build outputs
 dist/
 build/
 *.tsbuildinfo
+.next/
+out/
 
 # IDE
 .vscode/
@@ -20,6 +25,7 @@ build/
 *.swo
 *~
 .DS_Store
+Thumbs.db
 
 # Logs
 logs/
@@ -34,3 +40,20 @@ coverage/
 
 # Docker
 .dockerignore
+
+# Playwright
+playwright-report/
+test-results/
+
+# Redis/MongoDB local data
+dump.rdb
+*.dump
+
+# Gemini/Agent
+.gemini/
+.agent/
+
+# Misc
+*.bak
+*.tmp
+.cache/

@@ -1,0 +1,89 @@
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0* Host partners.api.skyscanner.net:80 was resolved.
+* IPv6: (none)
+* IPv4: 108.157.78.91, 108.157.78.95, 108.157.78.61, 108.157.78.7
+*   Trying 108.157.78.91:80...
+* Connected to partners.api.skyscanner.net (108.157.78.91) port 80
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0> GET /apiservices/browsedates/v1.0/US/USD/en-us/JFK/LON/anytime/anytime?apiKey=jo567814663897645898889958369326 HTTP/1.1
+> Host: partners.api.skyscanner.net
+> User-Agent: curl/8.7.1
+> Accept: */*
+> 
+* Request completely sent off
+< HTTP/1.1 301 Moved Permanently
+< Server: CloudFront
+< Date: Wed, 10 Dec 2025 17:29:02 GMT
+< Content-Type: text/html
+< Content-Length: 167
+< Connection: keep-alive
+< Location: https://partners.api.skyscanner.net/apiservices/browsedates/v1.0/US/USD/en-us/JFK/LON/anytime/anytime?apiKey=jo567814663897645898889958369326
+< X-Cache: Redirect from cloudfront
+< Via: 1.1 cf0ea9745b9f387ac1d8662b3d823b44.cloudfront.net (CloudFront)
+< X-Amz-Cf-Pop: LOS50-P1
+< Alt-Svc: h3=":443"; ma=86400
+< X-Amz-Cf-Id: F2aURC85c0h1RQV2h6udC_o6-4rM23zRVBA4iDXgJKUBMFijkCwtuA==
+< 
+* Ignoring the response-body
+100   167  100   167    0     0    535      0 --:--:-- --:--:-- --:--:--   535
+* Connection #0 to host partners.api.skyscanner.net left intact
+* Clear auth, redirects to port from 80 to 443
+* Issue another request to this URL: 'https://partners.api.skyscanner.net/apiservices/browsedates/v1.0/US/USD/en-us/JFK/LON/anytime/anytime?apiKey=jo567814663897645898889958369326'
+* Host partners.api.skyscanner.net:443 was resolved.
+* IPv6: (none)
+* IPv4: 108.157.78.91, 108.157.78.95, 108.157.78.61, 108.157.78.7
+*   Trying 108.157.78.91:443...
+* Connected to partners.api.skyscanner.net (108.157.78.91) port 443
+* ALPN: curl offers h2,http/1.1
+* (304) (OUT), TLS handshake, Client hello (1):
+} [332 bytes data]
+*  CAfile: /etc/ssl/cert.pem
+*  CApath: none
+* (304) (IN), TLS handshake, Server hello (2):
+{ [122 bytes data]
+* (304) (IN), TLS handshake, Unknown (8):
+{ [19 bytes data]
+* (304) (IN), TLS handshake, Certificate (11):
+{ [3839 bytes data]
+* (304) (IN), TLS handshake, CERT verify (15):
+{ [264 bytes data]
+* (304) (IN), TLS handshake, Finished (20):
+{ [36 bytes data]
+* (304) (OUT), TLS handshake, Finished (20):
+} [36 bytes data]
+* SSL connection using TLSv1.3 / AEAD-AES128-GCM-SHA256 / [blank] / UNDEF
+* ALPN: server accepted h2
+* Server certificate:
+*  subject: CN=api.skyscanner.net
+*  start date: Apr  6 00:00:00 2025 GMT
+*  expire date: May  5 23:59:59 2026 GMT
+*  subjectAltName: host "partners.api.skyscanner.net" matched cert's "partners.api.skyscanner.net"
+*  issuer: C=US; O=Amazon; CN=Amazon RSA 2048 M02
+*  SSL certificate verify ok.
+* using HTTP/2
+* [HTTP/2] [1] OPENED stream for https://partners.api.skyscanner.net/apiservices/browsedates/v1.0/US/USD/en-us/JFK/LON/anytime/anytime?apiKey=jo567814663897645898889958369326
+* [HTTP/2] [1] [:method: GET]
+* [HTTP/2] [1] [:scheme: https]
+* [HTTP/2] [1] [:authority: partners.api.skyscanner.net]
+* [HTTP/2] [1] [:path: /apiservices/browsedates/v1.0/US/USD/en-us/JFK/LON/anytime/anytime?apiKey=jo567814663897645898889958369326]
+* [HTTP/2] [1] [user-agent: curl/8.7.1]
+* [HTTP/2] [1] [accept: */*]
+> GET /apiservices/browsedates/v1.0/US/USD/en-us/JFK/LON/anytime/anytime?apiKey=jo567814663897645898889958369326 HTTP/2
+> Host: partners.api.skyscanner.net
+> User-Agent: curl/8.7.1
+> Accept: */*
+> 
+* Request completely sent off
+< HTTP/2 404 
+< content-length: 0
+< date: Wed, 10 Dec 2025 17:29:02 GMT
+< server: istio-envoy
+< x-cache: Error from cloudfront
+< via: 1.1 01d6fde3506f3f6ef8601203e2d83ed0.cloudfront.net (CloudFront)
+< x-amz-cf-pop: LOS50-P1
+< alt-svc: h3=":443"; ma=86400
+< x-amz-cf-id: 5nTmtwgADHbAcbz0-puJbOhnd7tGdVzxNiTAoqt6KE-2HXQDvG1D7w==
+< 
+{ [0 bytes data]
+  0     0    0     0    0     0      0      0 --:--:--  0:00:01 --:--:--     0
+* Connection #1 to host partners.api.skyscanner.net left intact

@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 export const connectDatabase = async (): Promise<void> => {
   try {
     const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/flight-scanner';
-    
+
     await mongoose.connect(mongoUri, {
       retryWrites: true,
       w: 'majority',
@@ -14,8 +14,9 @@ export const connectDatabase = async (): Promise<void> => {
     // Create indexes
     await createIndexes();
   } catch (error) {
-    console.error('✗ MongoDB connection failed:', error);
-    throw error;
+    console.warn('⚠ MongoDB connection failed. Database features will be limited.');
+    // Do NOT throw to allow server start
+    // throw error; 
   }
 };
 

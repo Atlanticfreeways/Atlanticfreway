@@ -13,7 +13,7 @@ export const arbitraries = {
    * Generate valid IATA airport codes (3 uppercase letters)
    */
   iataCode: (): fc.Arbitrary<string> =>
-    fc.stringOf(fc.integer({ min: 65, max: 90 }), { minLength: 3, maxLength: 3 }).map(s => String.fromCharCode(...s.split('').map(c => c.charCodeAt(0)))),
+    fc.string({ minLength: 3, maxLength: 3 }).filter(s => /^[A-Z]{3}$/.test(s)),
 
   /**
    * Generate valid email addresses
@@ -88,19 +88,19 @@ export const arbitraries = {
 /**
  * Helper to run property-based tests with standard configuration
  */
-export function runPropertyTest<T>(
-  property: (value: T) => boolean | void,
-  arbitrary: fc.Arbitrary<T>,
-  options?: Partial<fc.Parameters<T>>
-): void {
-  fc.assert(
-    fc.property(arbitrary, property),
-    {
-      numRuns: 100,
-      ...options,
-    }
-  );
-}
+// export function runPropertyTest<T>(
+//   property: (value: T) => boolean | void,
+//   arbitrary: fc.Arbitrary<T>,
+//   options?: Partial<fc.Parameters<T>>
+// ): void {
+//   fc.assert(
+//     fc.property(arbitrary, property),
+//     {
+//       numRuns: 100,
+//       ...options,
+//     }
+//   );
+// }
 
 /**
  * Helper to create mock request object

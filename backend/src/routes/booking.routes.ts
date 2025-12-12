@@ -1,30 +1,13 @@
 import { Router } from 'express';
+import { BookingController } from '../controllers/bookingController';
+import { authenticate, optionalAuthenticate } from '../middleware/auth';
 
 const router = Router();
 
-// POST /api/bookings
-router.post('/', (req, res) => {
-  res.json({ message: 'Create booking endpoint' });
-});
+// Create booking (Optional auth: Guests can book too, but Auth users get it linked)
+router.post('/', optionalAuthenticate, BookingController.createBooking);
 
-// GET /api/bookings/:id
-router.get('/:id', (req, res) => {
-  res.json({ message: 'Get booking details endpoint' });
-});
-
-// GET /api/bookings
-router.get('/', (req, res) => {
-  res.json({ message: 'Get user bookings endpoint' });
-});
-
-// PUT /api/bookings/:id
-router.put('/:id', (req, res) => {
-  res.json({ message: 'Update booking endpoint' });
-});
-
-// DELETE /api/bookings/:id
-router.delete('/:id', (req, res) => {
-  res.json({ message: 'Cancel booking endpoint' });
-});
+// Get my bookings (Strict auth required)
+router.get('/my-bookings', authenticate, BookingController.getUserBookings);
 
 export default router;

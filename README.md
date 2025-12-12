@@ -1,6 +1,6 @@
-# Flight Scanner - Full Stack Flight Booking Platform
+# Flight Scanner & Travel Safety Guardian
 
-A modern, full-stack flight and hotel booking platform built with MERN stack, featuring real-time pricing, multi-currency support, and advanced search capabilities.
+A comprehensive standalone flight and hotel booking platform that goes beyond booking. We leverage **Skyscanner's API** for real-time, accurate pricing and integrate **reliable public travel safety tools** to provide essential travel advisories. Users can not only find the best deals but also assess the safety of countries, states, and regions before they travel.
 
 ## 🚀 Quick Start
 
@@ -148,30 +148,30 @@ npm test                    # Run tests
 npm run test:watch        # Watch mode
 ```
 
-## 📦 Tech Stack
+## 📦 Tech Stack & Tools
 
-### Frontend
-- React 18+ with TypeScript
-- Vite (build tool)
-- TailwindCSS + Shadcn/ui
-- React Query (data fetching)
-- Zustand (state management)
-- Framer Motion (animations)
-- Vitest (testing)
+### Core Framework
+- **Frontend**: React 18+ (Vite), TypeScript, TailwindCSS + Shadcn/ui
+- **Backend**: Node.js, Express.js
+- **Database**: MongoDB (Mongoose ODM)
+- **Caching**: Redis
+- **State Management**: Zustand, React Query
 
-### Backend
-- Node.js + Express
-- MongoDB with Mongoose
-- Redis (caching)
-- Bull (job queue)
-- JWT (authentication)
-- Zod (validation)
-- Jest (testing)
+### APIs & External Services
+- **Flight Data**: Skyscanner API (Real-time pricing, schedules, routes)
+- **Travel Safety**: 
+    - **US Dept of State Open Data**: Authoritative travel advisories and risk levels (1-4).
+    - **TuGo Developer API**: Structured safety, health, and entry requirement data.
+    - **CDC Travel Health Notices**: Disease outbreak alerts via RSS/XML feeds.
+- **Maps**: Mapbox GL (Visualizing routes & safe zones)
+- **Currency**: Open Exchange Rates API (Multi-currency support)
+- **Payments**: Stripe (Secure booking transactions)
 
-### Infrastructure
+### Infrastructure & DevOps
 - Docker & Docker Compose
 - GitHub Actions (CI/CD)
-- Nginx (reverse proxy)
+- Nginx (Reverse Proxy)
+- Bull (Job Queues for price alerts)
 
 ## 🚀 Deployment
 
@@ -218,10 +218,11 @@ For support, email support@flightscanner.com or open an issue on GitHub.
 ## 🗺️ Roadmap
 
 ### Phase 1 (MVP)
-- ✅ Flight search & display
+- ✅ Flight search & display (Skyscanner API)
 - ✅ Basic filtering
 - ✅ User authentication
 - ✅ Booking flow
+- ✅ Travel Safety Advisory (Region/Country safety status)
 
 ### Phase 2
 - Hotel integration

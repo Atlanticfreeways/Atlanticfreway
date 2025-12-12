@@ -20,6 +20,11 @@ export const createRateLimiter = (config: Partial<RateLimitConfig> = {}) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
       const redis = getRedisClient();
+
+      if (!redis) {
+        return next();
+      }
+
       const key = `rate-limit:${req.ip}`;
 
       const current = await redis.incr(key);

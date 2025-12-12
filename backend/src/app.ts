@@ -3,7 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import routes from './routes';
 import errorHandler from './middleware/errorHandler';
-import logger from './config/logger';
+// import logger from './config/logger';
 import { globalRateLimiter } from './middleware/rateLimiter';
 import requestLogger from './middleware/requestLogger';
 import securityHeaders from './middleware/securityHeaders';
@@ -17,7 +17,7 @@ app.use(securityHeaders);
 
 // CORS configuration
 app.use(cors({
-  origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
+  origin: process.env.CORS_ORIGIN ? [process.env.CORS_ORIGIN, 'http://localhost:5173'] : ['http://localhost:3000', 'http://localhost:5173'],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-API-Key'],
@@ -34,7 +34,7 @@ app.use(requestLogger);
 app.use(globalRateLimiter);
 
 // Health check (no rate limiting)
-app.get('/health', (req: Request, res: Response) => {
+app.get('/health', (_req: Request, res: Response) => {
   res.json({
     status: 'ok',
     timestamp: new Date().toISOString(),
